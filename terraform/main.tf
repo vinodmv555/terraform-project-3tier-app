@@ -20,6 +20,7 @@ module "network" {
   source              = "./modules/network"
   location            = "eastus"
   vnet_address_space  = ["10.0.0.0/16"]
+  
   subnets = [
     {
       name           = "compute"
@@ -30,6 +31,7 @@ module "network" {
       address_prefix = "10.0.3.0/27"
     }
   ]
+
   enable_bastion  = false
   bastion_name    = "bastion-dev"
   nsg_name        = "allow-22-80-443"
