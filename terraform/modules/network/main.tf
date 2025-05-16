@@ -1,18 +1,18 @@
-# Azure Resource Group
+# Create Azure Resource Group
 resource "azurerm_resource_group" "app_rg" {
-    name = "rg-${var.environment}-${var.vnet_name}"
-    location = var.location
+    name = "rg-${var.environment}-${var.application_name}"    
+    location = var.location    
 }
 
-# Azure Virtual Network 
+# Create Azure Virtual Network 
 resource "azurerm_virtual_network" "app_vnet" {
-    name = "vnet-${var.environment}-${var.vnet_name}"
+    name = "vnet-${var.environment}-${var.application_name}"
     location = azurerm_resource_group.app_rg.location
     resource_group_name = azurerm_resource_group.app_rg.name 
     address_space = var.vnet_address_space    
 }
 
-# Subnets
+# Create Subnets in VNet 
 resource "azurerm_subnet" "app_subnets" {
     for_each = { for subnet in var.subnets : subnet.name => subnet }
 
@@ -22,14 +22,14 @@ resource "azurerm_subnet" "app_subnets" {
     address_prefixes = [ each.value.address_prefix ]
 }
 
-# NSG 
+# Create NSG for compute subnet
 resource "azurerm_network_security_group" "app_nsg" {
     name = var.nsg_name
-    location = azurerm_resource_group.app_rg.name
-    resource_group_name = azurerm_resource_group.app_rg.location 
+    location = azurerm_resource_group.app_rg.location
+    resource_group_name = azurerm_resource_group.app_rg.name 
 }
 
-# NSG rules
+# Add NSG rules
 resource "azurerm_network_security_rule" "app_nsg_rules" {
     for_each = var.allowed_ports
 
@@ -46,12 +46,13 @@ resource "azurerm_network_security_rule" "app_nsg_rules" {
     network_security_group_name = azurerm_network_security_group.app_nsg.name
 }
 
-# NSG Association 
+# NSG Association with compute subnet
 resource "azurerm_subnet_network_security_group_association" "app_nsg_assocation" {
-  subnet_id = var.nsg_subnet_name
+  subnet_id = azurerm_subnet.app_subnets[var.nsg_subnet_name].id
   network_security_group_id = azurerm_network_security_group.app_nsg.id
 }
 
+# Create public ip for azure bastion
 resource "azurerm_public_ip" "app_vnet_bastion" {
     count = var.enable_bastion ? 1: 0
     name = "${var.bastion_name}-pip"
@@ -61,11 +62,12 @@ resource "azurerm_public_ip" "app_vnet_bastion" {
     sku = "Standard"  
 }
 
+# Create Azure Bastion
 resource "azurerm_bastion_host" "app_vnet_bastion" {
     count = var.enable_bastion ? 1: 0
     name = var.bastion_name
     location = azurerm_resource_group.app_rg.location
-    resource_group_name = azurerm_network_security_group.app_nsg.name
+    resource_group_name = azurerm_resource_group.app_rg.name
 
     ip_configuration {
       name = "bastion-ip-config"

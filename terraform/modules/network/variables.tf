@@ -1,10 +1,10 @@
-variable "resource_group_name" {
-  description = "Name of the resoruce group"
+variable "environment" {
+  description = "Infra environment"
   type        = string
 }
 
-variable "environment" {
-  description = "Infra environment"
+variable "application_name" {
+  description = "Application name"
   type        = string
 }
 
@@ -13,15 +13,9 @@ variable "location" {
   type        = string
 }
 
-variable "vnet_name" {
-  description = "Name of the virtual netwok"
-  type        = string
-}
-
 variable "vnet_address_space" {
   description = "Address space for the VNet"
   type        = list(string)
-
 }
 
 variable "subnets" {
