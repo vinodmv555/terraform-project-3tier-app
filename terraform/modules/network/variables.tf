@@ -1,3 +1,4 @@
+# Resoruce Group Variables 
 variable "environment" {
   description = "Infra environment"
   type        = string
@@ -13,6 +14,7 @@ variable "location" {
   type        = string
 }
 
+# Network Variables
 variable "vnet_address_space" {
   description = "Address space for the VNet"
   type        = list(string)
@@ -26,6 +28,22 @@ variable "subnets" {
   }))
 }
 
+variable "nsg_name" {
+  description = "Name of the Network Security Group"
+  type        = string
+}
+
+variable "allowed_ports" {
+  type        = map(string)
+  description = "List of ports to allow in the NSG"
+}
+
+variable "compute_subnet_name" {
+  description = "Name of the subnet to associate NSG with"
+  type        = string
+}
+
+# Bastion Variable
 variable "enable_bastion" {
   description = "Whether to create a Bastion host"
   type        = bool
@@ -39,17 +57,20 @@ variable "bastion_name" {
   default     = ""
 }
 
-variable "nsg_name" {
-  description = "Name of the Network Security Group"
+# DB Variables 
+variable "db_subnet_name" {
+  description = "Name of the subnet to host the DB Private Endpoint"
   type        = string
 }
 
-variable "allowed_ports" {
+variable "db_nsg_name" {
+  description = "Name to give the NSG for the DB subnet"
+  type        = string
+}
+
+variable "db_allowed_ports" {
+  description = "Port ranges to allow into the DB subnet"
   type        = map(string)
-  description = "List of ports to allow in the NSG"
+  # e.g. { mysql = "3306" }
 }
 
-variable "nsg_subnet_name" {
-  description = "Name of the subnet to associate NSG with"
-  type        = string
-}
