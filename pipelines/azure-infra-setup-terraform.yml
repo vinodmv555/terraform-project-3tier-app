@@ -13,8 +13,6 @@ parameters:
       - Acceptance 
       - Production 
 
-
-
 variables:
   - name: env
     '${{ if eq(parameters.environment, ''Development'' ) }}':
@@ -22,4 +20,4 @@ variables:
     '${{ if eq(parameters.environment, ''Acceptance'' ) }}':
       value: acc
     '${{ if eq(parameters.environment, ''Production'' ) }}':
-      value: prd 
+      value: prd
