@@ -1,12 +1,17 @@
 ---
-trigger: none 
+trigger: none
+name: Setup ${parameters.environment} App Infra
+appendCommitMessageToRunName: false 
 
 parameters:
   - name: environment
+    displayName: Select Environment
     type: string
-    default: dev
+    default: Development
     values:
-      - dev
-      - stage 
-      - prd
+      - Development
+      - Stage 
+      - Production 
+
+
 
