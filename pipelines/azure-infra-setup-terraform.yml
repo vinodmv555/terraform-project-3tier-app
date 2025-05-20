@@ -32,7 +32,7 @@ variables:
     value: $(env)-webapp.terraform.tfstate  
 
 stages:
-  - stage: Terraform Validate 
+  - stage: Terraform_Validate 
     jobs:
       - job: Validate 
         continueOnError: false
