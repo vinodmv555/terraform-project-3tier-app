@@ -21,3 +21,14 @@ variables:
       value: acc
     '${{ if eq(parameters.environment, ''Production'' ) }}':
       value: prd
+  
+  - name: backend_storage_rg 
+    value: rg-terraform-backends
+  - name: backend_storage_account
+    value: terraformbackends286957
+  - name: backend_storage_container
+    value: terraform-backend-myapp
+  - name: backend_storage_key
+    value: $(env)-webapp.terraform.tfstate 
+
+    
