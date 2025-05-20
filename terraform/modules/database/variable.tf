@@ -1,6 +1,11 @@
-variable "server_name" {
+variable "environment" {
     description = "Name of the MySQL Flexible Server"
     type        = string
+}
+
+variable "application_name" {
+  description = "Application name"
+  type        = string
 }
 
 variable "resource_group_name" {
