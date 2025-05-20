@@ -10,8 +10,16 @@ parameters:
     default: Development
     values:
       - Development
-      - Stage 
+      - Acceptance 
       - Production 
 
 
 
+variables:
+  - name: env
+    '${{ if eq(parameters.environment, ''Development'' ) }}':
+      value: dev 
+    '${{ if eq(parameters.environment, ''Acceptance'' ) }}':
+      value: acc
+    '${{ if eq(parameters.environment, ''Production'' ) }}':
+      value: prd 
