@@ -34,7 +34,8 @@ variables:
 stages:
   - stage: Terraform_Validate 
     jobs:
-      - job: Validate 
+      - job: Terrafrom_Validate 
+        displayName: Validate Terraform
         continueOnError: false
         steps:
           - task: TerraformInstaller@1
