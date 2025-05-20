@@ -24,7 +24,7 @@ resource "azurerm_subnet" "subnets_webapp_vnet" {
 
 # Create NSG for compute subnet
 resource "azurerm_network_security_group" "nsg_compute_subnet" {
-  name                = "nsg-${var.nsg_name}"
+  name                = "nsg-${var.nsg_name}-${var.environment}"
   location            = azurerm_resource_group.rg_webapp.location
   resource_group_name = azurerm_resource_group.rg_webapp.name
 }
@@ -48,16 +48,14 @@ resource "azurerm_network_security_rule" "nsg_compute_subnet_rules" {
 
 # NSG Association with compute subnet
 resource "azurerm_subnet_network_security_group_association" "nsg_compute_subnet_assocation" {
-  #subnet_id                 = azurerm_subnet.app_subnets[var.compute_subnet_namee].id
   subnet_id                 = azurerm_subnet.subnets_webapp_vnet[var.compute_subnet_name].id
   network_security_group_id = azurerm_network_security_group.nsg_compute_subnet.id
-  #network_security_group_id = azurerm_network_security_group.app_nsg.id
 }
 
 # Create public ip for azure bastion
 resource "azurerm_public_ip" "pip_webapp_vnet_bastion" {
   count               = var.enable_bastion ? 1 : 0
-  name                = "pip-${var.bastion_name}"
+  name                = "pip-azurebastion-${var.environment}"
   location            = azurerm_resource_group.rg_webapp.location
   resource_group_name = azurerm_resource_group.rg_webapp.name
   allocation_method   = "Static"
@@ -67,7 +65,7 @@ resource "azurerm_public_ip" "pip_webapp_vnet_bastion" {
 # Create Azure Bastion
 resource "azurerm_bastion_host" "bastion_webapp_vnet" {
   count               = var.enable_bastion ? 1 : 0
-  name                = var.bastion_name
+  name                = "azurebastion-${var.environment}"
   location            = azurerm_resource_group.rg_webapp.location
   resource_group_name = azurerm_resource_group.rg_webapp.name
 
@@ -80,7 +78,7 @@ resource "azurerm_bastion_host" "bastion_webapp_vnet" {
 
 # DB NSG 
 resource "azurerm_network_security_group" "nsg_db_subnet" {
-  name                = var.db_nsg_name
+  name                = "${var.db_nsg_name}-${var.environment}"
   location            = azurerm_resource_group.rg_webapp.location
   resource_group_name = azurerm_resource_group.rg_webapp.name
 }

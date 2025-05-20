@@ -50,13 +50,6 @@ variable "enable_bastion" {
   default     = false
 }
 
-# This variable is optional – the caller of the module doesn’t have to explicitly pass it.
-variable "bastion_name" {
-  description = "Name of the Bastion host (only used if enable_bastion is true)"
-  type        = string
-  default     = ""
-}
-
 # DB Variables 
 variable "db_subnet_name" {
   description = "Name of the subnet to host the DB Private Endpoint"

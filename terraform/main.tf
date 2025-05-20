@@ -37,7 +37,6 @@ module "network" {
   ]
 
   enable_bastion      = false
-  bastion_name        = "bastion-dev"
   nsg_name            = "allow-22-80-443" # to changed nsg-compute-subnet
   compute_subnet_name = "compute-subnet"
   allowed_ports = {
