@@ -29,6 +29,14 @@ variables:
   - name: backend_storage_container
     value: terraform-backend-myapp
   - name: backend_storage_key
-    value: $(env)-webapp.terraform.tfstate 
+    value: $(env)-webapp.terraform.tfstate  
 
-    
+stages:
+  - stage: Terraform Validate 
+    jobs:
+      - job: Validate 
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
