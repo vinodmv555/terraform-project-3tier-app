@@ -52,10 +52,11 @@ stages:
               targetType: 'inline'
               script: |
                 echo "Running on agent: $(Agent.Name)"
-                echo "Selected environment: $(environment)"
+                echo "Selected environment: ${{ parameters.environment }}"
                 echo "Env shorthand: $(env)"
                 echo "Backend RG: $(backend_storage_rg)"
-                echo "Backend Storage Account: $(backend_storage_acc)"
-                echo "Backend Storage Key: (backend_storage_key) "
+                echo "Backend Storage Account: $(backend_storage_account)"
+                echo "Backend Storage Container: $(backend_storage_container)"
+                echo "Backend Storage Key: $(backend_storage_key) "
 
             
