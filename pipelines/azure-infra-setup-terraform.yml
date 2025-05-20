@@ -1,6 +1,6 @@
 ---
 trigger: none
-name: Setup ${parameters.environment} App Infra
+name: Setup ${{ parameters.environment }} App Infra
 appendCommitMessageToRunName: false 
 
 parameters:
