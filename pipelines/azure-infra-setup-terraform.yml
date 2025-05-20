@@ -59,4 +59,13 @@ stages:
                 echo "Backend Storage Container: $(backend_storage_container)"
                 echo "Backend Storage Key: $(backend_storage_key) "
 
-            
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'hcldevops-to-azurecloud'
+              backendAzureRmResourceGroupName: '$(backend_storage_rg)'
+              backendAzureRmStorageAccountName: '$(backend_storage_account)'
+              backendAzureRmContainerName: '$(backend_storage_container)'
+              backendAzureRmKey: '$(backend_storage_key)'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
