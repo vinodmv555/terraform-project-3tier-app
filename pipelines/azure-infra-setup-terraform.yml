@@ -64,9 +64,10 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+              backendAzureRmUseEntraIdForAuthentication: false
               backendServiceArm: 'azdevops-to-azcloud-federation'
               backendAzureRmResourceGroupName: '$(backend_storage_rg)'
               backendAzureRmStorageAccountName: '$(backend_storage_account)'
               backendAzureRmContainerName: '$(backend_storage_container)'
               backendAzureRmKey: '$(backend_storage_key)'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
