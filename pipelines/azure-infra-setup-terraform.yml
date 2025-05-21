@@ -71,3 +71,10 @@ stages:
               backendAzureRmStorageAccountName: '$(backend_storage_account)'
               backendAzureRmContainerName: '$(backend_storage_container)'
               backendAzureRmKey: '$(backend_storage_key)'
+
+          - task: TerraformTask@5
+            displayName: Terraform Validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
