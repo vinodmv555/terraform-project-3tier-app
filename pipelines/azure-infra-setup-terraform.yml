@@ -32,7 +32,7 @@ variables:
   - name: backend_storage_container
     value: terraform-backend-myapp
   - name: backend_storage_key
-    value: $(env)-webapp.terraform.tfstate  
+    value: webapp.terraform.tfstate  
 
 stages:
   - stage: Terraform_Validate 
@@ -64,4 +64,9 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'init'
+              backendServiceArm: 'hcldevops-to-azurecloud'
+              backendAzureRmResourceGroupName: '$(backend_storage_rg)'
+              backendAzureRmStorageAccountName: '$(backend_storage_account)'
+              backendAzureRmContainerName: '$(backend_storage_container)'
+              backendAzureRmKey: '$(backend_storage_key)'
               workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
