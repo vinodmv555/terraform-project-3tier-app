@@ -78,3 +78,7 @@ stages:
               provider: 'azurerm'
               command: 'validate'
               workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    
+  - stage: tfdeploy 
+    condition: succeeded(Terraform_Validate)
+    dependsOn: Terraform_Validate
