@@ -6,6 +6,12 @@ terraform {
       version = "~> 4.28.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-backends"
+    storage_account_name = "terraformbackends286957"
+    container_name       = "terraform-backend-myapp"
+    key                  = "webapp.terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
@@ -54,18 +60,18 @@ module "network" {
 
 
 module "compute" {
-  source              = "./modules/compute"
+  source = "./modules/compute"
 
-  resource_group_name = module.network.resoruce_group_name # ok 
+  resource_group_name = module.network.resoruce_group_name     # ok 
   location            = module.network.resoruce_group_location # ok 
 
-  environment      = "dev" # ok 
+  environment      = "dev"      # ok 
   application_name = "mywebapp" # ok 
-  vm_name          = "web01" # ok 
+  vm_name          = "web01"    # ok 
 
   enable_public_ip = true
   public_ip_sku    = "Standard"
-  
+
   subnet_id = module.network.subnet_ids["compute-subnet"] # ok and issue  
-  
+
 }
