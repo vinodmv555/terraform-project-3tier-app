@@ -32,9 +32,9 @@ parameters:
 variables:
   - name: ansibleUser
     '${{ if eq(parameters.environment, ''Production'') }}':
-      value: ansible-nonprd
-    ${{ else }}:
       value: ansible-prd
+    ${{ else }}:
+      value: ansible-nonprd
   
   - name: ansibleTags 
     '${{ if eq(parameters.package, ''NodeJS'') }}':
