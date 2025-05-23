@@ -68,6 +68,6 @@ jobs:
         displayName:  Download Ansible User Secret 
         inputs:
           azureSubscription: 'azdevops-to-azcloud-federation'
-          KeyVaultName: 'ansiblecredentials'
+          KeyVaultName: 'ansiblecreds'
           SecretsFilter: '$(ansibleUser)'
           RunAsPreJob: true
