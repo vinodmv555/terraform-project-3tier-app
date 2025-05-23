@@ -74,12 +74,13 @@ jobs:
       
       - task: Ansible@0
         displayName: Run Playbook
+        env:
+          ANSIBLE_CONFIG: '$(System.DefaultWorkingDirectory)/ansible/ansible.cfg'
         inputs:
           ansibleInterface: 'agentMachine'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/configure-webapp-infra.yml'
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/inventory/Development.ini'
-          ansibleConfigFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/ansible.cfg'
           args: '
             --extra-vars "
               ansible_user=$(ansibleUser)
