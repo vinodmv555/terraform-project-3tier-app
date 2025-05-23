@@ -71,3 +71,15 @@ jobs:
           KeyVaultName: 'ansiblecreds'
           SecretsFilter: '$(ansibleUser)'
           RunAsPreJob: true
+      
+      - task: Ansible@0
+        displayName: Run Playbook
+        inputs:
+          ansibleInterface: 'agentMachine'
+          playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/configure-webapp-infra.yml'
+          inventoriesAgentMachine: 'file'
+          inventoryFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/inventory/Development.ini'
+          args: '
+            --extra-vars "
+              ansible_user=$(ansibleUser)
+              ansible_ssh_pass=$(ansibleUser)"'
