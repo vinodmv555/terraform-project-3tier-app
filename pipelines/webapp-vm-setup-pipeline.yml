@@ -2,6 +2,9 @@
 trigger: none
 appendCommitMessageToRunName: false
 
+pool:
+  vmImage: 'ubuntu-latest'
+
 parameters:
   - name: environment
     displayName: Select Environment
@@ -14,6 +17,7 @@ parameters:
   - name: package
     displayName: Select Package
     type: string
+    default: All
     values:
       - All
       - NodeJS 
@@ -27,25 +31,24 @@ parameters:
 
 variables:
   - name: ansibleUser
-    ${{ if eq(parameters.environment, ''Production'') }}:
+    '${{ if eq(parameters.environment, ''Production'') }}':
       value: ansible-nonprd
     ${{ else }}:
       value: ansible-prd
   
   - name: ansibleTags 
-    ${{ if eq(parameters.package, ''NodeJS'') }}:
+    '${{ if eq(parameters.package, ''NodeJS'') }}':
       value: nodejs
-    ${{ if eq(parameters.package,  ''PM2'') }}:
+    '${{ if eq(parameters.package,  ''PM2'') }}':
       value: pm2
-    ${{ if eq(parameters.package, ''SQL-Client'') }}:
+    '${{ if eq(parameters.package, ''SQL-Client'') }}':
       value: sql-client
-    ${{ else }}:
+    '${{ else }}':
       value: '*'
 
 jobs:
   - job: app_infra_setup
     displayName: Webapp ${{ parameters.environment }} Infra Setup 
-    pool: ubuntu-latest
     steps:
       - checkout: self 
         displayName: Checkout terraform-project-3tier-app
@@ -64,7 +67,7 @@ jobs:
       - task: AzureKeyVault@2
         displayName:  Download Ansible User Secret 
         inputs:
-          azureSubscription: 2c58f186-d2f5-4a88-b700-e54dd3526d6d
-          KeyVaultName: ansiblecredentials
-          SecretsFilter: $(ansibleUser)
-          RunAsPreJob: true 
+          azureSubscription: 'azdevops-to-azcloud-federation'
+          KeyVaultName: 'ansiblecredentials'
+          SecretsFilter: '$(ansibleUser)'
+          RunAsPreJob: true
