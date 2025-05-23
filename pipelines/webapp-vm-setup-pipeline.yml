@@ -90,5 +90,5 @@ jobs:
           inventoryFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/inventory/Development.ini'
           args: '
             --extra-vars "
-              ansible_user=$(ansibleUser)
-              ansible_ssh_pass=$(ansibleUser)"'
+              ansible_user=ansible-nonprd
+              ansible_ssh_pass=Jenkins_99_3tierapp"'
