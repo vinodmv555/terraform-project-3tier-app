@@ -71,11 +71,16 @@ jobs:
           KeyVaultName: 'ansiblecreds'
           SecretsFilter: '$(ansibleUser)'
           RunAsPreJob: true
+
+      - task: Bash@3
+        displayName: nothing
+        inputs:
+          targetType: inline
+          script: |
+            export ANSIBLE_CONFIG='$(System.DefaultWorkingDirectory)/ansible/ansible.cfg'
       
       - task: Ansible@0
         displayName: Run Playbook
-        env:
-          ANSIBLE_CONFIG: '$(System.DefaultWorkingDirectory)/ansible/ansible.cfg'
         inputs:
           ansibleInterface: 'agentMachine'
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/configure-webapp-infra.yml'
