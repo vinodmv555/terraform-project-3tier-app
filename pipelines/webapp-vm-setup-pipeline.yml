@@ -27,17 +27,17 @@ parameters:
 
 variables:
   - name: ansibleUser
-    ${{ if eq(parameters.environment) ''Production''}}:
+    ${{ if eq(parameters.environment, ''Production'') }}:
       value: ansible-nonprd
     ${{ else }}:
       value: ansible-prd
   
   - name: ansibleTags 
-    ${{ if eq(parameters.package) ''NodeJS''}}:
+    ${{ if eq(parameters.package, ''NodeJS'') }}:
       value: nodejs
-    ${{ if eq(parameters.package) ''PM2''}}:
+    ${{ if eq(parameters.package,  ''PM2'') }}:
       value: pm2
-    ${{ if eq(parameters.package) ''SQL-Client''}}:
+    ${{ if eq(parameters.package, ''SQL-Client'') }}:
       value: sql-client
     ${{ else }}:
       value: '*'
