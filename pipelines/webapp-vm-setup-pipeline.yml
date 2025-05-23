@@ -91,4 +91,4 @@ jobs:
           args: '
             --extra-vars "
               ansible_user=ansible-nonprd
-              ansible_ssh_pass=Jenkins_99_3tierapp"'
+              ansible_ssh_pass=$(ansiblePasswd)"'
