@@ -1,0 +1,7 @@
+---
+- name: Setup webapp Infra
+  hosts: all
+  become: true 
+
+  roles:
+    - webapp-infra-setup
