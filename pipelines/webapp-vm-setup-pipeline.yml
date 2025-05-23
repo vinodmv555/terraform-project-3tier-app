@@ -79,6 +79,7 @@ jobs:
           playbookPathOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/configure-webapp-infra.yml'
           inventoriesAgentMachine: 'file'
           inventoryFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/inventory/Development.ini'
+          ansibleConfigFileOnAgentMachine: '$(System.DefaultWorkingDirectory)/ansible/ansible.cfg'
           args: '
             --extra-vars "
               ansible_user=$(ansibleUser)
