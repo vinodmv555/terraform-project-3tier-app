@@ -1,0 +1,38 @@
+---
+  - name: Check if Node.js {{ node_version }} is already extracted
+    stat:
+      path: "{{ node_extract_dir }}"
+    register: node_dir
+
+  - name: Download Node.js {{ node_version }} tarball
+    get_url:
+      url: "{{ node_url }}"
+      dest: "/tmp/{{ node_file }}"
+      mode: '0644'
+    when: not node_dir.stat.exists
+
+  - name: Extract Node.js archive
+    unarchive:
+      src: "/tmp/{{ node_file }}"
+      dest: "/usr/local"
+      remote_src: yes
+      creates: "{{ node_extract_dir }}"
+    when: not node_dir.stat.exists
+
+  - name: Point /usr/local/nodejs → extracted Node.js
+    file:
+      src: "{{ node_extract_dir }}"
+      dest: "{{ node_current_link }}"
+      state: link
+      force: yes
+
+  - name: Symlink node, npm, npx into /usr/bin
+    file:
+      src: "{{ node_current_link }}/bin/{{ item }}"
+      dest: "/usr/bin/{{ item }}"
+      state: link
+      force: yes
+    loop:
+      - node
+      - npm
+      - npx

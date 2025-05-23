@@ -1,0 +1,4 @@
+---
+- name: Setup NodeJS
+  ansible.builtin.include_tasks: nodejs-setup.yml
+    
