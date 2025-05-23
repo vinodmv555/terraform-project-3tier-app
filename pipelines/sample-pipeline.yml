@@ -1,0 +1,17 @@
+---
+trigger: none
+name: Setup ${{ parameters.environment }} App Infra
+appendCommitMessageToRunName: false 
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: environment
+    displayName: Select Environment
+    type: string
+    default: Development
+    values:
+      - Development
+      - Acceptance 
+      - Production 
