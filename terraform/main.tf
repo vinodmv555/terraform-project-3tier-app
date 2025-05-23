@@ -21,8 +21,8 @@ provider "azurerm" {
 
 
 module "network" {
-  environment        = "dev"
-  application_name   = "mywebapp"
+  environment        = var.environment
+  application_name   = var.application_name
   source             = "./modules/network"
   location           = "centralus"
   vnet_address_space = ["10.0.0.0/16"]
@@ -43,7 +43,7 @@ module "network" {
   ]
 
   enable_bastion      = false
-  nsg_name            = "allow-22-80-443" # to changed nsg-compute-subnet
+  nsg_name            = "nsg-compute-subnet" # to changed nsg-compute-subnet
   compute_subnet_name = "compute-subnet"
   allowed_ports = {
     "ssh"   = "22",
@@ -53,25 +53,23 @@ module "network" {
   db_subnet_name = "db-subnet"
   db_nsg_name    = "nsg-db-subnet"
   db_allowed_ports = {
-    "mysql" = ", "
+    "mysql" = "3306"
   }
 }
-
-
 
 module "compute" {
   source = "./modules/compute"
 
-  resource_group_name = module.network.resoruce_group_name     # ok 
-  location            = module.network.resoruce_group_location # ok 
+  resource_group_name = module.network.resoruce_group_name
+  location            = module.network.resoruce_group_location
 
-  environment      = "dev"      # ok 
-  application_name = "mywebapp" # ok 
-  vm_name          = "web01"    # ok 
+  environment      = var.environment
+  application_name = var.application_name
+  vm_name          = var.vm_name
 
   enable_public_ip = true
   public_ip_sku    = "Standard"
 
-  subnet_id = module.network.subnet_ids["compute-subnet"] # ok and issue  
+  subnet_id = module.network.subnet_ids["compute-subnet"] 
 
 }

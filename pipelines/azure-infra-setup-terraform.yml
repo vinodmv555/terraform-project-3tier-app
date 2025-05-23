@@ -82,3 +82,7 @@ stages:
   - stage: tfdeploy 
     condition: succeeded(Terraform_Validate)
     dependsOn: Terraform_Validate
+    jobs:
+      - job: apply 
+        steps:
+          - 
