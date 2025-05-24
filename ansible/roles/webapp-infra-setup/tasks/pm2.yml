@@ -1,28 +1,15 @@
 ---
-  - name: Install PM2 globally via npm
+  - name: Install PM2 globally as root
     community.general.npm:
       name: pm2
       global: yes
-    become_user: "{{ pm2_user }}"
-
-  - name: Locate the PM2 executable
-    ansible.builtin.command: which pm2
-    become_user: "{{ pm2_user }}"
-    register: pm2_path
-    failed_when: pm2_path.rc != 0
-    changed_when: false
 
   - name: Generate and enable PM2 systemd service
-    ansible.builtin.command: >
-      {{ pm2_path.stdout }}
-      startup systemd
-      -u {{ pm2_user }}
-      --hp /home/{{ pm2_user }}
-    become_user: "{{ pm2_user }}"
+    command: /usr/local/bin/pm2 startup systemd -u {{ pm2_user }} --hp /home/{{ pm2_user }}
     register: pm2_startup
     changed_when: "'Init System found: systemd' in pm2_startup.stdout"
 
-  - name: Save current PM2 process list for auto-respawn
-    ansible.builtin.command: "{{ pm2_path.stdout }} save"
+  - name: Save current PM2 process list for auto‐respawn
+    command: /usr/local/bin/pm2 save
     when: pm2_startup is succeeded
     become_user: "{{ pm2_user }}"
