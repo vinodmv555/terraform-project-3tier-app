@@ -5,3 +5,4 @@ node_file: "node-v{{ node_version }}-{{ node_dist }}.tar.xz"
 node_url: "https://nodejs.org/dist/v{{ node_version }}/{{ node_file }}"
 node_extract_dir: "/usr/local/node-v{{ node_version }}-{{ node_dist }}"
 node_current_link: "/usr/local/nodejs"
+pm2_user: root
