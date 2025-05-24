@@ -3,11 +3,13 @@
     community.general.npm:
       name: pm2
       global: yes
+    become_user: "{{ pm2_user }}"
 
   - name: Generate and enable PM2 systemd service
     command: /usr/local/bin/pm2 startup systemd -u {{ pm2_user }} --hp /home/{{ pm2_user }}
     register: pm2_startup
     changed_when: "'Init System found: systemd' in pm2_startup.stdout"
+    become_user: "{{ pm2_user }}"
 
   - name: Save current PM2 process list for auto‐respawn
     command: /usr/local/bin/pm2 save
