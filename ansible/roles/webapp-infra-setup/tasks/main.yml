@@ -1,4 +1,8 @@
 ---
 - name: Setup NodeJS
   ansible.builtin.include_tasks: nodejs-setup.yml
+
+- name: Setup PM2 
+  ansible.builtin.include_role: pm2.yml
+    
     
